@@ -66,10 +66,10 @@ def metrics():
     '}'
 
     load_dotenv()
-    print( "==>",os.environ("ACCESS_KEY_ID"))
+    print( "==>",os.environ["ACCESS_KEY_ID"])
     client = boto3.client('cloudwatch',
-                        aws_access_key_id = os.environ("ACCESS_KEY_ID"),
-                        aws_secret_access_key = os.environ("SECRET_ACCESS_KEY"),
+                        aws_access_key_id = os.environ["ACCESS_KEY_ID"],
+                        aws_secret_access_key = os.environ["SECRET_ACCESS_KEY"],
                         region_name='us-east-2')
 
     response = client.get_metric_widget_image(
