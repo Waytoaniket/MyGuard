@@ -78,8 +78,8 @@ def enter_form_details():
             
             # Check if ID exists
             s3 = boto3.resource('s3',
-                            aws_access_key_id = os.getenv("ACCESS_KEY_ID"),
-                            aws_secret_access_key = os.getenv("SECRET_ACCESS_KEY"),
+                            aws_access_key_id = os.environ("ACCESS_KEY_ID"),
+                            aws_secret_access_key = os.environ("SECRET_ACCESS_KEY"),
                             region_name='us-east-2')
             try:
                 s3.Object('my-guard-bucket', str(user_id+".jpg")).load()
@@ -104,8 +104,8 @@ def enter_form_details():
                 file.save(os.path.join(current_app.config['ENTER_IMAGES_FOLDER'], filename))
 
                 client = boto3.client('rekognition',
-                                        aws_access_key_id = os.getenv("ACCESS_KEY_ID"),
-                                        aws_secret_access_key = os.getenv("SECRET_ACCESS_KEY"),
+                                        aws_access_key_id = os.environ("ACCESS_KEY_ID"),
+                                        aws_secret_access_key = os.environ("SECRET_ACCESS_KEY"),
                                         region_name='us-east-2')
 
                 with open(os.path.join(current_app.config['ENTER_IMAGES_FOLDER'], filename), 'rb') as source_image:

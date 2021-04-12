@@ -38,10 +38,10 @@ def register_form_result():
             image = str(user_id)+".jpg"
             #AWS Bucket upload
             load_dotenv()
-            print(os.getenv("ACCESS_KEY_ID"))
+            print(os.environ("ACCESS_KEY_ID"))
             s3 = boto3.resource('s3',
-                            aws_access_key_id = os.getenv("ACCESS_KEY_ID"),
-                            aws_secret_access_key = os.getenv("SECRET_ACCESS_KEY"),
+                            aws_access_key_id = os.environ("ACCESS_KEY_ID"),
+                            aws_secret_access_key = os.environ("SECRET_ACCESS_KEY"),
                             region_name='us-east-2')
             data = open(os.path.join(current_app.config['REGISTER_IMAGES_FOLDER'], filename), 'rb')
             s3.Bucket('my-guard-bucket').put_object(Key=str(image), Body=data)
