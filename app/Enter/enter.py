@@ -82,7 +82,7 @@ def enter_form_details():
                             aws_secret_access_key = os.getenv("SECRET_ACCESS_KEY"),
                             region_name='us-east-2')
             try:
-                s3.Object('adis-aws-bucket', str(user_id+".jpg")).load()
+                s3.Object('my-guard-bucket', str(user_id+".jpg")).load()
             except botocore.exceptions.ClientError as e:
                 if e.response['Error']['Code'] == "404":
                     # The object does not exist.
@@ -98,6 +98,9 @@ def enter_form_details():
             # Facial Recognition
             if IDExists:
                 filename = secure_filename(str(user_id)+"_upload"+".jpg")
+                if(not os.path.exists(current_app.config['ENTER_IMAGES_FOLDER'])):
+                    print(current_app.config['ENTER_IMAGES_FOLDER'])
+                    os.makedirs(current_app.config['ENTER_IMAGES_FOLDER'])
                 file.save(os.path.join(current_app.config['ENTER_IMAGES_FOLDER'], filename))
 
                 client = boto3.client('rekognition',
@@ -115,7 +118,7 @@ def enter_form_details():
                     },
                     TargetImage={
                         'S3Object': {
-                            'Bucket': 'adis-aws-bucket',
+                            'Bucket': 'my-guard-bucket',
                             'Name': compare_img
                         }
                     }

@@ -31,16 +31,20 @@ def register_form_result():
         
         if file:
             filename = secure_filename(str(user_id)+".jpg")
+            if(not os.path.exists(current_app.config['REGISTER_IMAGES_FOLDER'])):
+                print(current_app.config['REGISTER_IMAGES_FOLDER'])
+                os.makedirs(current_app.config['REGISTER_IMAGES_FOLDER'])
             file.save(os.path.join(current_app.config['REGISTER_IMAGES_FOLDER'], filename))
             image = str(user_id)+".jpg"
             #AWS Bucket upload
             load_dotenv()
+            print(os.getenv("ACCESS_KEY_ID"))
             s3 = boto3.resource('s3',
                             aws_access_key_id = os.getenv("ACCESS_KEY_ID"),
                             aws_secret_access_key = os.getenv("SECRET_ACCESS_KEY"),
                             region_name='us-east-2')
             data = open(os.path.join(current_app.config['REGISTER_IMAGES_FOLDER'], filename), 'rb')
-            s3.Bucket('adis-aws-bucket').put_object(Key=str(image), Body=data)
+            s3.Bucket('my-guard-bucket').put_object(Key=str(image), Body=data)
         result = request.form
         timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
 
@@ -50,6 +54,9 @@ def register_form_result():
             "name": name,
             "timestamp": timestamp
         }
+        print(mongo)
+        print(mongo.db)
+        print(mongo.db.users)
         user_collection = mongo.db.users
         user_collection.insert_one(user_entry)
         

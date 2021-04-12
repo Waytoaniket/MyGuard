@@ -66,6 +66,7 @@ def metrics():
     '}'
 
     load_dotenv()
+    print( "==>",os.getenv("ACCESS_KEY_ID"))
     client = boto3.client('cloudwatch',
                         aws_access_key_id = os.getenv("ACCESS_KEY_ID"),
                         aws_secret_access_key = os.getenv("SECRET_ACCESS_KEY"),
