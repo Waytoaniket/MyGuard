@@ -26,7 +26,7 @@ def register_form_result():
         if 'file' not in request.files:
             flash('No image found')
         file = request.files['image']
-        print(file.read(),'===============>')
+        # print(file.read(),'===============>')
         if file.filename == '':
             flash('No image selected')
         else:
