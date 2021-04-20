@@ -6,6 +6,7 @@ import re
 import shutil
 import time
 import datetime
+import base64
 from dotenv import load_dotenv
 from flask import Blueprint, current_app, render_template, url_for, redirect, request, session, flash
 from werkzeug.utils import secure_filename
@@ -71,8 +72,13 @@ def enter_form_details():
         
         if file.filename == '':
             flash('No image selected')
-                
+        else:
+            image = request.files['image']  
+            image_string = base64.b64encode(image.read())
+            image_string = image_string.decode('utf-8')
+        print(file)
         if file and temp_validity:
+            
             load_dotenv()
             image = str(user_id)+"_upload"+".jpg"
             
@@ -97,19 +103,18 @@ def enter_form_details():
 
             # Facial Recognition
             if IDExists:
-                filename = secure_filename(str(user_id)+"_upload"+".jpg")
-                if(not os.path.exists(current_app.config['ENTER_IMAGES_FOLDER'])):
-                    print(current_app.config['ENTER_IMAGES_FOLDER'])
-                    os.makedirs(current_app.config['ENTER_IMAGES_FOLDER'])
-                file.save(os.path.join(current_app.config['ENTER_IMAGES_FOLDER'], filename))
+                # filename = secure_filename(str(user_id)+"_upload"+".jpg")
+                # if(not os.path.exists(current_app.config['ENTER_IMAGES_FOLDER'])):
+                #     print(current_app.config['ENTER_IMAGES_FOLDER'])
+                #     os.makedirs(current_app.config['ENTER_IMAGES_FOLDER'])
+                # file.save(os.path.join(current_app.config['ENTER_IMAGES_FOLDER'], filename))
 
                 client = boto3.client('rekognition',
                                         aws_access_key_id = os.environ["ACCESS_KEY_ID"],
                                         aws_secret_access_key = os.environ["SECRET_ACCESS_KEY"],
                                         region_name='us-east-2')
-
-                with open(os.path.join(current_app.config['ENTER_IMAGES_FOLDER'], filename), 'rb') as source_image:
-                    source_bytes = source_image.read()
+                file.seek(0)
+                source_bytes = file.read()
 
                 compare_img = str(user_id+".jpg")
                 response = client.compare_faces(
@@ -161,7 +166,7 @@ def enter_form_details():
 
         return render_template( "enter_form-result.html",
                                 result = result, 
-                                file=str(user_id)+"_upload"+".jpg", 
+                                file=image_string, 
                                 user_id=user_id, 
                                 temp=temp, 
                                 type=_type,

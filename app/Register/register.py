@@ -6,6 +6,7 @@ import string
 import shutil
 import time
 import datetime
+import base64
 from dotenv import load_dotenv
 from flask import Blueprint, current_app, render_template, url_for, redirect, request, session, flash
 from werkzeug.utils import secure_filename
@@ -25,16 +26,20 @@ def register_form_result():
         if 'file' not in request.files:
             flash('No image found')
         file = request.files['image']
-        
+        print(file.read(),'===============>')
         if file.filename == '':
             flash('No image selected')
+        else:
+            image = request.files['image']  
+            image_string = base64.b64encode(image.read())
+            image_string = image_string.decode('utf-8')
         
         if file:
-            filename = secure_filename(str(user_id)+".jpg")
-            if(not os.path.exists(current_app.config['REGISTER_IMAGES_FOLDER'])):
-                print(current_app.config['REGISTER_IMAGES_FOLDER'])
-                os.makedirs(current_app.config['REGISTER_IMAGES_FOLDER'])
-            file.save(os.path.join(current_app.config['REGISTER_IMAGES_FOLDER'], filename))
+            # filename = secure_filename(str(user_id)+".jpg")
+            # if(not os.path.exists(current_app.config['REGISTER_IMAGES_FOLDER'])):
+            #     print(current_app.config['REGISTER_IMAGES_FOLDER'])
+            #     os.makedirs(current_app.config['REGISTER_IMAGES_FOLDER'])
+            # file.save(os.path.join(current_app.config['REGISTER_IMAGES_FOLDER'], filename))
             image = str(user_id)+".jpg"
             #AWS Bucket upload
             load_dotenv()
@@ -43,7 +48,8 @@ def register_form_result():
                             aws_access_key_id = os.environ["ACCESS_KEY_ID"],
                             aws_secret_access_key = os.environ["SECRET_ACCESS_KEY"],
                             region_name='us-east-2')
-            data = open(os.path.join(current_app.config['REGISTER_IMAGES_FOLDER'], filename), 'rb')
+            file.seek(0)
+            data = file.read()
             s3.Bucket('my-guard-bucket').put_object(Key=str(image), Body=data)
         result = request.form
         timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
@@ -62,7 +68,7 @@ def register_form_result():
         
         return render_template("register_form-result.html",
                                 result = result, 
-                                file=image, 
+                                file=image_string, 
                                 user_id=user_id, 
                                 name=name, 
                                 timestamp=timestamp)
