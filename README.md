@@ -11,10 +11,10 @@
   <p align="center">
     Automated Security Task
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
+    <a href="https://docs.google.com/document/d/1KF65t9N9TMkO4DHqI02kcHO1DgoCmEi7_cdcJBLKTSE/edit?usp=sharing"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://docs.google.com/document/d/1KF65t9N9TMkO4DHqI02kcHO1DgoCmEi7_cdcJBLKTSE/edit?usp=sharing">View Demo</a>
+    <a href="https://myguardproject.herokuapp.com/">View Demo</a>
   </p>
 </p>
 
@@ -60,7 +60,7 @@
 ## Getting Started
 #### Clone the Repo
 ```
-git clone https://github.com/ADI-KOTKAR/My_Guard.git
+git clone https://github.com/Waytoaniket/MyGuard.git
 ````
 
 #### Create Free Accounts
@@ -173,11 +173,9 @@ Open the localhost link - [http://127.0.0.1:5000/](http://127.0.0.1:5000/) , thi
 
 ## Contact
 
-**Aditya Kotkar** -[adityakotkar75@gmail.com](adityakotkar75@gmail.com)
+**Aniket Gupta** -[waytoaniketgupta@gmail.com](waytoaniketgupta@gmail.com)
 
 ## License
 
-- Project link: [My_Guard](https://github.com/ADI-KOTKAR/My_Guard)
-- [License](https://github.com/ADI-KOTKAR/My_Guard/blob/master/LICENSE)
-
+- Project link: [My_Guard](https://github.com/Waytoaniket/MyGuard)
 
