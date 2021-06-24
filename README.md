@@ -11,8 +11,6 @@
   <p align="center">
     Automated Security Task
     <br />
-    <a href="https://docs.google.com/document/d/1KF65t9N9TMkO4DHqI02kcHO1DgoCmEi7_cdcJBLKTSE/edit?usp=sharing"><strong>Explore the docs »</strong></a>
-    <br />
     <br />
     <a href="https://myguardproject.herokuapp.com/">View Demo</a>
   </p>
